@@ -1,0 +1,1616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learn Python Using AI - 30 Day Course</title>
+    <style>
+        /* Your existing CSS styles remain the same */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f3f3f3;
+            color: #333;
+            line-height: 1.6;
+        }
+        nav {
+            background: #0078D4;
+            padding: 12px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        nav h2 {
+            margin: 0;
+            color: #fff;
+            font-size: 20px;
+        }
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: 500;
+            transition: opacity 0.2s;
+        }
+        nav a:hover {
+            opacity: 0.9;
+            text-decoration: underline;
+        }
+        .header-container {
+            max-width: 100%;
+            padding: 30px 20px 10px;
+            text-align: center;
+        }
+        h1 {
+            color: #0078D4;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #555;
+            margin-bottom: 30px;
+            font-size: 16px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px 30px;
+            box-sizing: border-box;
+        }
+        .lesson {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            width: 100%;
+            box-sizing: border-box;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border-left: 4px solid #0078D4;
+        }
+        .lesson:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .lesson.completed-day {
+            border-left: 4px solid #107C10;
+            background: #f8fff8;
+        }
+        .lesson.completed-day h3 {
+            color: #107C10;
+        }
+        .lesson h3 {
+            color: #0078D4;
+            margin: 0 0 15px 0;
+            font-size: 18px;
+            font-weight: 600;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eaeaea;
+        }
+        .lecture {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin: 10px 0;
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid #e1e1e1;
+            background: #fafafa;
+        }
+        .lecture a {
+            background-color: #0078D4;
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 14px;
+            transition: 0.2s;
+            flex-shrink: 0;
+        }
+        .lecture a:hover {
+            background-color: #005a9e;
+        }
+        .progress-container {
+            display: flex;
+            align-items: center;
+            width: 50%;
+            min-width: 180px;
+        }
+        .progress-bar {
+            height: 8px;
+            background-color: #e1e1e1;
+            border-radius: 4px;
+            flex-grow: 1;
+            margin-right: 10px;
+            overflow: hidden;
+        }
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background-color: #0078D4;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+        .progress-text {
+            font-size: 13px;
+            color: #333;
+            font-weight: 500;
+            min-width: 40px;
+        }
+        .lecture.completed .progress-bar-fill {
+            background-color: #107C10;
+        }
+        .lecture.completed a {
+            background-color: #107C10;
+        }
+        .lecture.completed a:hover {
+            background-color: #0b5c0b;
+        }
+        .complete-btn {
+            background: #0078D4;
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.2s;
+            flex-shrink: 0;
+        }
+        .complete-btn:hover {
+            background: #005a9e;
+        }
+        .complete-btn.completed {
+            background: #107C10;
+        }
+        .certificate-section {
+            text-align: center;
+            padding: 40px 20px;
+            background: #fff;
+            margin-top: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .certificate-section h2 {
+            color: #0078D4;
+            margin-bottom: 20px;
+        }
+        .cert-btn {
+            background-color: #0078d4;
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            padding: 14px 32px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+            transition: all 0.2s ease;
+        }
+        .cert-btn:disabled {
+            background-color: #a0a0a0;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+        .cert-btn:hover:not(:disabled) {
+            background-color: #005a9e;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        .cert-btn:active:not(:disabled) {
+            transform: translateY(0);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+        }
+        .modal {
+            position: fixed;
+            inset: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0,0,0,0.6);
+            z-index: 9999;
+        }
+        .modal.show {
+            display: flex;
+        }
+        .modal-body {
+            width: min(900px, 92vw);
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+            overflow: hidden;
+        }
+        .modal-header {
+            display: flex;
+            justify-content: flex-end;
+            padding: 6px 12px;
+            background: #f3f3f3;
+        }
+        .close-btn {
+            border: 0;
+            background: transparent;
+            color: #333;
+            font-size: 22px;
+            cursor: pointer;
+        }
+        video {
+            width: 100%;
+            height: auto;
+            display: block;
+            background: #000;
+        }
+        .day-counter {
+            display: inline-block;
+            background: #0078D4;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 14px;
+            margin-right: 10px;
+        }
+        .day-counter.completed {
+            background: #107C10;
+        }
+        
+        /* Test-specific styles */
+        .test-section {
+            background: #fff8e1;
+            border-left: 4px solid #ff9800;
+        }
+        .test-section a.take-test {
+            background-color: #ff9800;
+        }
+        .test-section a.take-test:hover {
+            background-color: #f57c00;
+        }
+        .test-section.completed {
+            background: #f1f8e9;
+            border-left: 4px solid #4caf50;
+        }
+        .test-section.completed a.take-test {
+            background-color: #4caf50;
+        }
+        
+        /* Test modal styles */
+        .test-modal {
+            position: fixed;
+            inset: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0,0,0,0.6);
+            z-index: 9999;
+        }
+        .test-modal.show {
+            display: flex;
+        }
+        .test-modal-body {
+            width: min(800px, 95vw);
+            max-height: 90vh;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .test-modal-header {
+            padding: 20px;
+            background: #0078D4;
+            color: white;
+            text-align: center;
+        }
+        .test-modal-content {
+            padding: 20px;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+        .test-modal-footer {
+            padding: 15px 20px;
+            background: #f3f3f3;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+        .test-modal-footer button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .test-modal-footer .submit-btn {
+            background: #0078D4;
+            color: white;
+        }
+        .test-modal-footer .close-btn {
+            background: #e0e0e0;
+            color: #333;
+        }
+        .question {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eaeaea;
+        }
+        .question:last-child {
+            border-bottom: none;
+        }
+        .question p {
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+        .options label {
+            display: block;
+            margin: 8px 0;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: background 0.2s;
+            cursor: pointer;
+        }
+        .options label:hover {
+            background: #f0f0f0;
+        }
+        .options input {
+            margin-right: 10px;
+        }
+        .result {
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .result.pass {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .result.fail {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .result h3 {
+            margin-bottom: 10px;
+        }
+        
+        /* Test result specific styles to match screenshot */
+        .test-result-header {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .test-score {
+            font-size: 18px;
+            margin: 15px 0;
+            color: #333;
+        }
+        .test-status {
+            font-size: 18px;
+            margin: 15px 0;
+            font-weight: bold;
+        }
+        .test-message {
+            margin: 20px 0;
+            line-height: 1.5;
+        }
+        .test-buttons {
+            margin-top: 25px;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+        .test-buttons button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .test-close-btn {
+            background: #6c757d;
+            color: white;
+        }
+        .test-try-again-btn {
+            background: #0078D4;
+            color: white;
+        }
+        
+        /* Video modal styles */
+        .video-modal {
+            position: fixed;
+            inset: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0,0,0,0.6);
+            z-index: 9999;
+        }
+        .video-modal.show {
+            display: flex;
+        }
+        .video-modal-body {
+            width: min(900px, 92vw);
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+            overflow: hidden;
+        }
+        .video-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            background: #f3f3f3;
+            border-bottom: 1px solid #e1e1e1;
+        }
+        .video-modal-title {
+            font-weight: 600;
+            color: #333;
+        }
+        .video-modal-content {
+            position: relative;
+        }
+        .video-progress-info {
+            padding: 10px 20px;
+            background: #f9f9f9;
+            border-top: 1px solid #e1e1e1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .video-progress-bar {
+            height: 6px;
+            background-color: #e1e1e1;
+            border-radius: 3px;
+            flex-grow: 1;
+            margin: 0 10px;
+            overflow: hidden;
+        }
+        .video-progress-fill {
+            height: 100%;
+            width: 0%;
+            background-color: #0078D4;
+            border-radius: 3px;
+            transition: width 0.1s ease;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                max-width: 100%;
+                padding: 0 15px 20px;
+            }
+            .certificate-section {
+                max-width: 100%;
+                padding: 30px 15px;
+            }
+            .lecture {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .progress-container {
+                width: 100%;
+                margin: 10px 0;
+            }
+            .complete-btn {
+                align-self: flex-end;
+                margin-top: 10px;
+            }
+            .test-modal-body {
+                width: 95vw;
+                height: 95vh;
+            }
+            .video-modal-body {
+                width: 95vw;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <h2>Learn Python Using AI</h2>
+        <div>
+            <a href="course.jsp">Course</a>
+            <a href="profile.jsp">Profile</a>
+            <a href="LogoutServlet" style="color:#fff; background:#0078d4; padding:8px 16px; border-radius:4px;">Logout</a>
+        </div>
+    </nav>
+    <div class="header-container">
+        <h1>30-Day Python & AI Learning Plan</h1>
+        <p class="subtitle">Each day has 2 lectures. Complete them to master Python with AI in 30 days.</p>
+    </div>
+    <div class="container">
+        <!-- Day 1 -->
+        <div class="lesson">
+            <h3><span class="day-counter">Day 1</span> Introduction to Python</h3>
+            <div class="lecture" data-lecture-day="1" data-lecture-num="1">
+                <a class="watch" href="#" data-video="videos/day10.1.mp4">Watch Lecture 1</a>
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-bar-fill"></div>
+                    </div>
+                    <span class="progress-text">0%</span>
+                </div>
+                <button class="complete-btn">Complete</button>
+            </div>
+        </div>
+
+        <!-- Day 2 -->
+        <div class="lesson">
+            <h3><span class="day-counter">Day 2</span> Basic Python Syntax</h3>
+            <div class="lecture" data-lecture-day="2" data-lecture-num="1">
+                <a class="watch" href="#" data-video="videos/lecture2.mp4">Watch Lecture 1</a>
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-bar-fill"></div>
+                    </div>
+                    <span class="progress-text">0%</span>
+                </div>
+                <button class="complete-btn">Complete</button>
+            </div>
+            <div class="lecture" data-lecture-day="2" data-lecture-num="2">
+                <a class="watch" href="#" data-video="videos/lecture2.2.mp4">Watch Lecture 2</a>
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-bar-fill"></div>
+                    </div>
+                    <span class="progress-text">0%</span>
+                </div>
+                <button class="complete-btn">Complete</button>
+            </div>
+        </div>
+
+        <!-- Day 3 -->
+        <div class="lesson">
+            <h3><span class="day-counter">Day 3</span> Control Structures -- IF ELSE</h3>
+            <div class="lecture" data-lecture-day="3" data-lecture-num="1">
+                <a class="watch" href="#" data-video="videos/lecture3.mp4">Watch Lecture 1</a>
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-bar-fill"></div>
+                    </div>
+                    <span class="progress-text">0%</span>
+                </div>
+                <button class="complete-btn">Complete</button>
+            </div>
+            <div class="lecture" data-lecture-day="3" data-lecture-num="2">
+                <a class="watch" href="#" data-video="videos/lecture3.1.mp4">Watch Lecture 2</a>
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-bar-fill"></div>
+                    </div>
+                    <span class="progress-text">0%</span>
+                </div>
+                <button class="complete-btn">Complete</button>
+            </div>
+        </div>
+
+        
+        </div>
+    </div>
+    <form action="certificate.html">
+    <div class="certificate-section">
+        <h2>When You Complete All 30 Days You Are Eligible For Certificate</h2>
+        <button class="cert-btn" id="certBtn" disabled>Fill Certificate Form</button>
+    </div></form>
+
+    <!-- Video Modal -->
+    <div class="video-modal" id="videoModal">
+        <div class="video-modal-body">
+            <div class="video-modal-header">
+                <div class="video-modal-title" id="videoTitle">Lecture Video</div>
+                <button class="close-btn" id="closeVideoBtn">&times;</button>
+            </div>
+            <div class="video-modal-content">
+                <video id="lectureVideo" controls>
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            <div class="video-progress-info">
+                <span>Progress:</span>
+                <div class="video-progress-bar">
+                    <div class="video-progress-fill" id="videoProgressFill"></div>
+                </div>
+                <span id="videoProgressText">0%</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Test Modal -->
+    <div class="test-modal" id="testModal">
+        <div class="test-modal-body">
+            <div class="test-modal-header">
+                <h2 id="testModalTitle">Test</h2>
+            </div>
+            <div class="test-modal-content">
+                <div id="testContent">
+                    <form id="testForm">
+                        <!-- Test questions will be dynamically inserted here -->
+                    </form>
+                </div>
+                <div id="testResult" class="result" style="display:none;"></div>
+            </div>
+            <div class="test-modal-footer">
+                <button class="close-btn" id="closeTestBtn">Close</button>
+                <button class="submit-btn" id="submitTestBtn">Submit Test</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mock user email for demo
+        const email = localStorage.getItem("loggedInUser") || "guest";
+
+        // Video tracking variables
+        let currentLectureDay = null;
+        let currentLectureNum = null;
+        let videoProgressInterval = null;
+        let currentTest = null;
+
+        // Test database with questions for each day
+        const testDatabase = {
+           
+
+            day6: {
+                title: "Day 6 Test: Data Structures - Lists",
+                questions: [
+                    {
+                        question: "1. How do you create an empty list in Python?",
+                        options: [
+                            "list = []",
+                            "list = list()",
+                            "list = {}",
+                            "Both A and B"
+                        ],
+                        answer: 3
+                    },
+                    {
+                        question: "2. How do you access the first element of a list called 'my_list'?",
+                        options: [
+                            "my_list[0]",
+                            "my_list[1]",
+                            "my_list.first()",
+                            "my_list(0)"
+                        ],
+                        answer: 0
+                    },
+                    {
+                        question: "3. Which method adds an element to the end of a list?",
+                        options: [
+                            "append()",
+                            "add()",
+                            "insert()",
+                            "push()"
+                        ],
+                        answer: 0
+                    },
+                    {
+                        question: "4. How do you get the length of a list?",
+                        options: [
+                            "len(list)",
+                            "list.length",
+                            "list.size",
+                            "length(list)"
+                        ],
+                        answer: 0
+                    },
+                    {
+                        question: "5. What does the pop() method do?",
+                        options: [
+                            "Adds an element",
+                            "Removes and returns the last element",
+                            "Sorts the list",
+                            "Reverses the list"
+                        ],
+                        answer: 1
+                    }
+                ]
+            },
+            day7: {
+                title: "Day 7 Test: Data Structures - Dictionaries",
+                questions: [
+                    {
+                        question: "1. How do you create an empty dictionary?",
+                        options: [
+                            "dict = []",
+                            "dict = {}",
+                            "dict = ()",
+                            "dict = dict()"
+                        ],
+                        answer: 1
+                    },
+                    {
+                        question: "2. How do you access the value for key 'name' in a dictionary called 'person'?",
+                        options: [
+                            "person['name']",
+                            "person.name",
+                            "person(name)",
+                            "person.get('name')"
+                        ],
+                        answer: 0
+                    },
+                    {
+                        question: "3. Which method returns all keys in a dictionary?",
+                        options: [
+                            "keys()",
+                            "get_keys()",
+                            "all_keys()",
+                            "key_list()"
+                        ],
+                        answer: 0
+                    },
+                    {
+                        question: "4. How do you add a new key-value pair to a dictionary?",
+                        options: [
+                            "dict.add(key, value)",
+                            "dict[key] = value",
+                            "dict.insert(key, value)",
+                            "dict.append(key, value)"
+                        ],
+                        answer: 1
+                    },
+                    {
+                        question: "5. What happens if you try to access a key that doesn't exist in a dictionary?",
+                        options: [
+                            "Returns None",
+                            "Returns an empty string",
+                            "Raises a KeyError",
+                            "Creates the key with None value"
+                        ],
+                        answer: 2
+                    }
+                ]
+            },
+            
+           
+            day13: {
+                title: "Day 13 Test: Inheritance and Polymorphism",
+                questions: [
+                    {
+                        question: "1. What is inheritance in OOP?",
+                        options: [
+                            "Creating new classes from existing ones",
+                            "Hiding implementation details",
+                            "Bundling data and methods",
+                            "Using the same interface for different types"
+                        ],
+                        answer: 0
+                    },
+                    {
+                        question: "2. How do you create a class that inherits from another?",
+                        options: [
+                            "class Child(Parent):",
+                            "class Child extends Parent:",
+                            "class Child : Parent",
+                            "class Child inherits Parent:"
+                        ],
+                        answer: 0
+                    },
+                    {
+                        question: "3. What is method overriding?",
+                        options: [
+                            "Creating a new method",
+                            "Redefining a parent class method in child class",
+                            "Calling a parent method from child",
+                            "Hiding a method"
+                        ],
+                        answer: 1
+                    },
+                    {
+                        question: "4. What is polymorphism?",
+                        options: [
+                            "Multiple inheritance",
+                            "Same interface, different implementations",
+                            "Data hiding",
+                            "Method overloading"
+                        ],
+                        answer: 1
+                    },
+                    {
+                        question: "5. How do you call a parent class method from a child class?",
+                        options: [
+                            "parent.method()",
+                            "super().method()",
+                            "self.parent.method()",
+                            "Parent.method()"
+                        ],
+                        answer: 1
+                    }
+                ]
+            },
+            day14: {
+                title: "Day 14 Test: Modules and Packages",
+                questions: [
+                    {
+                        question: "1. What is a Python module?",
+                        options: [
+                            "A folder containing Python files",
+                            "A single Python file",
+                            "A compiled Python program",
+                            "A Python library"
+                        ],
+                        answer: 1
+                    },
+                    {
+                        question: "2. How do you import a specific function from a module?",
+                        options: [
+                            "import function from module",
+                            "from module import function",
+                            "module.import(function)",
+                            "import module.function"
+                        ],
+                        answer: 1
+                    },
+                    {
+                        question: "3. What is a Python package?",
+                        options: [
+                            "A single Python file",
+                            "A folder containing __init__.py",
+                            "A compiled Python program",
+                            "A Python executable"
+                        ],
+                        answer: 1
+                    },
+                    {
+                        question: "4. How do you install external packages?",
+                        options: [
+                            "Using import statement",
+                            "Using pip install",
+                            "Using python get",
+                            "Using package manager"
+                        ],
+                        answer: 1
+                    },
+                    {
+                        question: "5. What is the purpose of __init__.py in a package?",
+                        options: [
+                            "It's required for Python to recognize the folder as a package",
+                            "It contains package documentation",
+                            "It lists all available modules",
+                            "It's not necessary in modern Python"
+                        ],
+                        answer: 0
+                    }
+                ]
+            },
+           
+            day20: {
+                title: "Day 20 Test: Weekly Assessment",
+                questions: [
+                    {
+                        question: "1. What will be the output of: print(2 ** 3)",
+                        options: [
+                            "6",
+                            "8",
+                            "9",
+                            "23"
+                        ],
+                        answer: 1
+                    },
+                    {
+                        question: "2. Which data type is mutable in Python?",
+                        options: [
+                            "Tuple",
+                            "String",
+                            "List",
+                            "Integer"
+                        ],
+                        answer: 2
+                    },
+                    {
+                        question: "3. What does the len() function return for an empty list?",
+                        options: [
+                            "0",
+                            "1",
+                            "None",
+                            "Error"
+                        ],
+                        answer: 0
+                    },
+                    {
+                        question: "4. How do you check if a variable is of type integer?",
+                        options: [
+                            "type(x) == int",
+                            "isinstance(x, int)",
+                            "x.is_integer()",
+                            "Both A and B"
+                        ],
+                        answer: 3
+                    },
+                    {
+                        question: "5. What is the result of: 'hello'[1:4]",
+                        options: [
+                            "hel",
+                            "ell",
+                            "ello",
+                            "hell"
+                        ],
+                        answer: 1
+                    }
+                ]
+            },
+            day21: {
+                title: "Day 21 Test: Weekly Assessment",
+                questions: [
+                    {
+                        question: "1. What is the output of: [1, 2, 3] + [4, 5]",
+                        options: [
+                            "[1, 2, 3, 4, 5]",
+                            "[5, 7, 3]",
+                            "[1, 2, 7]",
+                            "Error"
+                        ],
+                        answer: 0
+                    },
+                    {
+                        question: "2. How do you create a copy of a list?",
+                        options: [
+                            "list.copy()",
+                            "list[:]",
+                            "list(list)",
+                            "All of the above"
+                        ],
+                        answer: 3
+                    },
+                    {
+                        question: "3. What does the enumerate() function do?",
+                        options: [
+                            "Counts elements",
+                            "Returns index and value",
+                            "Sorts the list",
+                            "Filters elements"
+                        ],
+                        answer: 1
+                    },
+                    {
+                        question: "4. How do you reverse a list in place?",
+                        options: [
+                            "list.reverse()",
+                            "list[::-1]",
+                            "reversed(list)",
+                            "Both A and B"
+                        ],
+                        answer: 0
+                    },
+                    {
+                        question: "5. What is a list comprehension?",
+                        options: [
+                            "A way to create lists",
+                            "A way to filter lists",
+                            "A way to transform lists",
+                            "All of the above"
+                        ],
+                        answer: 3
+                    }
+                ]
+            },
+            
+            day26: {
+                title: "Day 26 Test: Neural Networks Introduction",
+                questions: [
+                    {
+                        question: "1. What is a neural network?",
+                        options: [
+                            "A brain simulation",
+                            "A machine learning algorithm inspired by the brain",
+                            "A type of database",
+                            "A programming language"
+                        ],
+                        answer: 1
+                    },
+                    {
+                        question: "2. What are the basic building blocks of neural networks?",
+                        options: [
+                            "Nodes or neurons",
+                            "Layers",
+                            "Weights",
+                            "All of the above"
+                        ],
+                        answer: 3
+                    },
+                    {
+                        question: "3. What is the purpose of the activation function?",
+                        options: [
+                            "To add non-linearity",
+                            "To calculate error",
+                            "To initialize weights",
+                            "To normalize data"
+                        ],
+                        answer: 0
+                    },
+                    {
+                        question: "4. What is deep learning?",
+                        options: [
+                            "Neural networks with many layers",
+                            "A type of machine learning",
+                            "Both A and B",
+                            "A programming technique"
+                        ],
+                        answer: 2
+                    },
+                    {
+                        question: "5. What is backpropagation?",
+                        options: [
+                            "A way to update weights",
+                            "A type of neural network",
+                            "An activation function",
+                            "A data preprocessing technique"
+                        ],
+                        answer: 0
+                    }
+                ]
+            },
+            day27: {
+                title: "Day 27 Test: Deep Learning with TensorFlow",
+                questions: [
+                    {
+                        question: "1. What is TensorFlow?",
+                        options: [
+                            "A deep learning library",
+                            "A data visualization tool",
+                            "A database system",
+                            "A web framework"
+                        ],
+                        answer: 0
+                    },
+                    {
+                        question: "2. What is a tensor?",
+                        options: [
+                            "A multidimensional array",
+                            "A type of neural network",
+                            "A machine learning algorithm",
+                            "A data structure"
+                        ],
+                        answer: 0
+                    },
+                    {
+                        question: "3. How do you create a simple neural network in TensorFlow?",
+                        options: [
+                            "Using Sequential API",
+                            "Using Functional API",
+                            "Using Model Subclassing",
+                            "All of the above"
+                        ],
+                        answer: 3
+                    },
+                    {
+                        question: "4. What is the purpose of the loss function?",
+                        options: [
+                            "To measure model performance",
+                            "To optimize the model",
+                            "To evaluate predictions",
+                            "All of the above"
+                        ],
+                        answer: 3
+                    },
+                    {
+                        question: "5. How do you train a model in TensorFlow?",
+                        options: [
+                            "model.fit()",
+                            "model.train()",
+                            "model.learn()",
+                            "model.execute()"
+                        ],
+                        answer: 0
+                    }
+                ]
+            },
+            day30: {
+                title: "Final Assessment: Python Course",
+                questions: [
+                    {
+                        question: "1. What is Python's philosophy summarized in the Zen of Python?",
+                        options: [
+                            "Simple is better than complex",
+                            "Fast is better than slow",
+                            "Complex is better than complicated",
+                            "All of the above"
+                        ],
+                        answer: 0
+                    },
+                    {
+                        question: "2. Which of these is NOT a Python data type?",
+                        options: [
+                            "list",
+                            "tuple",
+                            "array",
+                            "dictionary"
+                        ],
+                        answer: 2
+                    },
+                    {
+                        question: "3. What does OOP stand for in programming?",
+                        options: [
+                            "Object-Oriented Programming",
+                            "Operational Output Process",
+                            "Organized Operational Protocol",
+                            "Object Output Programming"
+                        ],
+                        answer: 0
+                    },
+                    {
+                        question: "4. Which library is used for numerical operations in Python?",
+                        options: [
+                            "NumPy",
+                            "Pandas",
+                            "Matplotlib",
+                            "SciPy"
+                        ],
+                        answer: 0
+                    },
+                    {
+                        question: "5. What is the main advantage of using functions?",
+                        options: [
+                            "Code reusability",
+                            "Better performance",
+                            "Smaller file size",
+                            "Faster execution"
+                        ],
+                        answer: 0
+                    }
+                ]
+            }
+        };
+
+        // Load progress on page load
+        function loadProgress() {
+            // In a real app, this would fetch from a server
+            // For demo, we'll use localStorage
+            const progressData = JSON.parse(localStorage.getItem(email + '_progressData') || '{}');
+            const dayCompletionData = JSON.parse(localStorage.getItem(email + '_dayCompletionData') || '{}');
+            
+            document.querySelectorAll('.lecture').forEach(lecture => {
+                const day = lecture.dataset.lectureDay;
+                const num = lecture.dataset.lectureNum;
+                const key = `${day}-${num}`;
+                const value = progressData[key] || 0;
+                const fill = lecture.querySelector('.progress-bar-fill');
+                const text = lecture.querySelector('.progress-text');
+                const btn = lecture.querySelector('.complete-btn');
+                const link = lecture.querySelector('a');
+
+                fill.style.width = value + '%';
+                text.textContent = Math.round(value) + '%'; // Round to whole number
+
+                if (value >= 100) {
+                    lecture.classList.add('completed');
+                    if (btn) btn.classList.add('completed');
+                    if (link) link.style.backgroundColor = '#107C10';
+                }
+            });
+
+            // Apply day completion styling
+            applyDayCompletionStyling(dayCompletionData);
+            updateCertificateButton();
+        }
+
+        // Apply styling for completed days
+        function applyDayCompletionStyling(dayCompletionData) {
+            document.querySelectorAll('.lesson').forEach(lesson => {
+                const dayHeader = lesson.querySelector('h3');
+                const dayMatch = dayHeader.textContent.match(/Day (\d+)/);
+                if (dayMatch) {
+                    const day = dayMatch[1];
+                    const dayCounter = lesson.querySelector('.day-counter');
+                    
+                    if (dayCompletionData[day]) {
+                        // Day is completed - add completed class to the entire lesson
+                        lesson.classList.add('completed-day');
+                        dayCounter.classList.add('completed');
+                        
+                        // Also mark all lectures in this day as completed
+                        const lectures = lesson.querySelectorAll('.lecture');
+                        lectures.forEach(lecture => {
+                            lecture.classList.add('completed');
+                            const btn = lecture.querySelector('.complete-btn');
+                            const link = lecture.querySelector('a');
+                            const fill = lecture.querySelector('.progress-bar-fill');
+                            const text = lecture.querySelector('.progress-text');
+                            
+                            if (btn) {
+                                btn.classList.add('completed');
+                                btn.style.backgroundColor = '#107C10';
+                            }
+                            if (link) {
+                                link.style.backgroundColor = '#107C10';
+                            }
+                            if (fill) {
+                                fill.style.width = '100%';
+                                fill.style.backgroundColor = '#107C10';
+                            }
+                            if (text) {
+                                text.textContent = '100%';
+                            }
+                        });
+                    }
+                }
+            });
+        }
+
+        window.addEventListener('DOMContentLoaded', loadProgress);
+
+        // Save progress to localStorage (in a real app, this would be to a server)
+       function saveProgress(lectureDay, lectureNum, percent) {
+
+       const progressData = JSON.parse(localStorage.getItem(email + '_progressData') || '{}');
+
+       const key = `${lectureDay}-${lectureNum}`;
+
+       progressData[key] = percent;
+
+       localStorage.setItem(email + '_progressData', JSON.stringify(progressData));
+
+       checkDaysCompleted();
+
+        }
+
+        // Handle lecture completion
+        document.querySelectorAll('.complete-btn:not(.test-complete-btn)').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const lecture = btn.closest('.lecture');
+                const fill = lecture.querySelector('.progress-bar-fill');
+                const text = lecture.querySelector('.progress-text');
+                const link = lecture.querySelector('a');
+                
+                fill.style.width = '100%';
+                fill.style.backgroundColor = '#107C10';
+                text.textContent = '100%';
+
+                lecture.classList.add('completed');
+                btn.classList.add('completed');
+                btn.style.backgroundColor = '#107C10';
+                if (link) link.style.backgroundColor = '#107C10';
+
+                const lectureDay = lecture.dataset.lectureDay;
+                const lectureNum = lecture.dataset.lectureNum;
+                saveProgress(lectureDay, lectureNum, 100);
+            });
+        });
+
+        // Video modal functionality
+        const videoModal = document.getElementById('videoModal');
+        const closeVideoBtn = document.getElementById('closeVideoBtn');
+        const lectureVideo = document.getElementById('lectureVideo');
+        const videoTitle = document.getElementById('videoTitle');
+        const videoProgressFill = document.getElementById('videoProgressFill');
+        const videoProgressText = document.getElementById('videoProgressText');
+
+        // Open video modal when clicking on watch links
+        document.querySelectorAll('.watch').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const lecture = this.closest('.lecture');
+                currentLectureDay = lecture.dataset.lectureDay;
+                currentLectureNum = lecture.dataset.lectureNum;
+                
+                const videoSrc = this.getAttribute('data-video');
+                const lectureTitle = this.textContent;
+                
+                // Set video source and title
+                lectureVideo.src = videoSrc;
+                videoTitle.textContent = lectureTitle;
+                
+                // Load saved progress for this lecture
+                const progressData = JSON.parse(localStorage.getItem(email + '_progressData') || '{}');
+                const key = `${currentLectureDay}-${currentLectureNum}`;
+                const savedProgress = progressData[key] || 0;
+                
+                // Set video to saved time (if any)
+                if (savedProgress > 0) {
+                    lectureVideo.addEventListener('loadedmetadata', function() {
+                        this.currentTime = (savedProgress / 100) * this.duration;
+                    }, { once: true });
+                }
+                
+                // Show modal
+                videoModal.classList.add('show');
+                
+                // Start tracking progress
+                startVideoProgressTracking();
+            });
+        });
+
+        // Close video modal
+        closeVideoBtn.addEventListener('click', function() {
+            videoModal.classList.remove('show');
+            lectureVideo.pause();
+            stopVideoProgressTracking();
+        });
+
+        // Start tracking video progress
+        function startVideoProgressTracking() {
+            // Clear any existing interval
+            if (videoProgressInterval) {
+                clearInterval(videoProgressInterval);
+            }
+            
+            // Update progress every second
+            videoProgressInterval = setInterval(updateVideoProgress, 1000);
+            
+            // Also update on timeupdate event for more accuracy
+            lectureVideo.addEventListener('timeupdate', updateVideoProgress);
+        }
+
+        // Stop tracking video progress
+        function stopVideoProgressTracking() {
+            if (videoProgressInterval) {
+                clearInterval(videoProgressInterval);
+                videoProgressInterval = null;
+            }
+            lectureVideo.removeEventListener('timeupdate', updateVideoProgress);
+        }
+
+        // Update video progress
+        function updateVideoProgress() {
+            if (lectureVideo.duration) {
+                const progress = (lectureVideo.currentTime / lectureVideo.duration) * 100;
+                
+                // Update modal progress display
+                videoProgressFill.style.width = progress + '%';
+                videoProgressText.textContent = Math.round(progress) + '%'; // Round to whole number
+                
+                // Update lecture progress in the list
+                updateLectureProgress(progress);
+                
+                // Save progress to storage
+                saveProgress(currentLectureDay, currentLectureNum, progress);
+            }
+        }
+
+        // Update lecture progress in the list
+        function updateLectureProgress(progress) {
+            const lecture = document.querySelector(`.lecture[data-lecture-day="${currentLectureDay}"][data-lecture-num="${currentLectureNum}"]`);
+            if (lecture) {
+                const fill = lecture.querySelector('.progress-bar-fill');
+                const text = lecture.querySelector('.progress-text');
+                
+                fill.style.width = progress + '%';
+                text.textContent = Math.round(progress) + '%'; // Round to whole number
+                
+                // Update completion status if progress is 100%
+                if (progress >= 100) {
+                    lecture.classList.add('completed');
+                    const btn = lecture.querySelector('.complete-btn');
+                    const link = lecture.querySelector('a');
+                    
+                    if (btn) btn.classList.add('completed');
+                    if (link) link.style.backgroundColor = '#107C10';
+                }
+            }
+        }
+
+        // Handle test completion
+        document.querySelectorAll('.test-complete-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const testSection = btn.closest('.test-section');
+                const fill = testSection.querySelector('.progress-bar-fill');
+                const text = testSection.querySelector('.progress-text');
+                const link = testSection.querySelector('a.take-test');
+                
+                fill.style.width = '100%';
+                fill.style.backgroundColor = '#107C10';
+                text.textContent = '100%';
+
+                testSection.classList.add('completed');
+                btn.classList.add('completed');
+                btn.style.backgroundColor = '#107C10';
+                link.style.backgroundColor = '#107C10';
+
+                const lectureDay = testSection.dataset.lectureDay;
+                saveProgress(lectureDay, 'test', 100);
+            });
+        });
+
+        // Test functionality
+        const testModal = document.getElementById('testModal');
+        const testModalTitle = document.getElementById('testModalTitle');
+        const closeTestBtn = document.getElementById('closeTestBtn');
+        const submitTestBtn = document.getElementById('submitTestBtn');
+        const testForm = document.getElementById('testForm');
+        const testContent = document.getElementById('testContent');
+        const testResult = document.getElementById('testResult');
+
+        // Open test modal when clicking on test links
+        document.querySelectorAll('.take-test').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                currentTest = this.getAttribute('data-test');
+                
+                if (testDatabase[currentTest]) {
+                    // Set test title
+                    testModalTitle.textContent = testDatabase[currentTest].title;
+                    
+                    // Generate test questions
+                    generateTestQuestions(testDatabase[currentTest].questions);
+                    
+                    // Show modal
+                    testModal.classList.add('show');
+                    testContent.style.display = 'block';
+                    testResult.style.display = 'none';
+                    testForm.reset();
+                    
+                    // Reset button states
+                    submitTestBtn.textContent = 'Submit Test';
+                    submitTestBtn.style.display = 'block';
+                    closeTestBtn.style.display = 'block';
+                }
+            });
+        });
+
+        // Generate test questions dynamically
+        function generateTestQuestions(questions) {
+            testForm.innerHTML = '';
+            
+            questions.forEach((q, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                
+                const questionText = document.createElement('p');
+                questionText.textContent = q.question;
+                questionDiv.appendChild(questionText);
+                
+                const optionsDiv = document.createElement('div');
+                optionsDiv.className = 'options';
+                
+                q.options.forEach((option, optIndex) => {
+                    const label = document.createElement('label');
+                    
+                    const input = document.createElement('input');
+                    input.type = 'radio';
+                    input.name = `q${index}`;
+                    input.value = optIndex;
+                    
+                    label.appendChild(input);
+                    label.appendChild(document.createTextNode(option));
+                    optionsDiv.appendChild(label);
+                });
+                
+                questionDiv.appendChild(optionsDiv);
+                testForm.appendChild(questionDiv);
+            });
+        }
+
+        // Close test modal
+        closeTestBtn.addEventListener('click', function() {
+            testModal.classList.remove('show');
+        });
+
+        // Submit test function
+        function submitTest() {
+            if (!currentTest || !testDatabase[currentTest]) return;
+            
+            // Calculate score
+            let score = 0;
+            const totalQuestions = testDatabase[currentTest].questions.length;
+            const answers = testDatabase[currentTest].questions.map(q => q.answer);
+            
+            // Check each question
+            for (let i = 0; i < totalQuestions; i++) {
+                const questionName = `q${i}`;
+                const selected = document.querySelector(`input[name="${questionName}"]:checked`);
+                
+                if (selected && parseInt(selected.value) === answers[i]) {
+                    score++;
+                }
+            }
+            
+            const percentage = (score / totalQuestions) * 100;
+            const passed = percentage >= 70; // 70% passing score
+            
+            // Display result
+            testContent.style.display = 'none';
+            testResult.style.display = 'block';
+            testResult.className = `result ${passed ? 'pass' : 'fail'}`;
+            
+            // Format result
+            testResult.innerHTML = `
+                <div class="test-result-header">${testDatabase[currentTest].title}</div>
+                <div class="test-score"><strong>Your Score</strong><br>${score}/${totalQuestions} (${Math.round(percentage)}%)</div>
+                <div class="test-status">Status: ${passed ? 'Passed' : 'Failed'}</div>
+                <div class="test-message">
+                    ${passed ? 
+                        'Congratulations! You passed the test.' : 
+                        'Please review the material and try again. You need at least 70% to pass.'
+                    }
+                </div>
+                <hr>
+                <div class="test-buttons">
+                    <button class="test-close-btn" id="resultCloseBtn">Close</button>
+                    ${!passed ? '<button class="test-try-again-btn" id="tryAgainBtn">Try Again</button>' : ''}
+                </div>
+            `;
+            
+            // Hide the original footer buttons
+            document.querySelector('.test-modal-footer').style.display = 'none';
+            
+            // Add event listeners to the new buttons
+            document.getElementById('resultCloseBtn').addEventListener('click', function() {
+                testModal.classList.remove('show');
+                document.querySelector('.test-modal-footer').style.display = 'flex';
+            });
+            
+            if (!passed) {
+                document.getElementById('tryAgainBtn').addEventListener('click', function() {
+                    testContent.style.display = 'block';
+                    testResult.style.display = 'none';
+                    testForm.reset();
+                    document.querySelector('.test-modal-footer').style.display = 'flex';
+                });
+            }
+            
+            // If passed, automatically complete the test
+            if (passed) {
+                // Find and click the test complete button for the current test
+                const testCompleteBtn = document.querySelector(`.take-test[data-test="${currentTest}"]`).closest('.test-section').querySelector('.test-complete-btn');
+                if (testCompleteBtn) {
+                    testCompleteBtn.click();
+                }
+            }
+        }
+
+        // Assign the submit function
+        submitTestBtn.addEventListener('click', submitTest);
+
+        function checkAllLecturesCompleted() {
+            const lectures = document.querySelectorAll('.lecture');
+            return Array.from(lectures).every(lecture => lecture.classList.contains('completed'));
+        }
+
+        function updateCertificateButton() {
+            const certBtn = document.getElementById('certBtn');
+            if (checkAllLecturesCompleted()) {
+                certBtn.disabled = false;
+                certBtn.onclick = () => {
+                    alert('Congratulations! Redirecting to certificate form...');
+                    // In a real app: window.location.href = 'certificateForm.jsp';
+                };
+            } else {
+                certBtn.disabled = true;
+                certBtn.onclick = null;
+            }
+        }
+
+        // Check and store completed days info
+        function checkDaysCompleted() {
+            // Create a map counting completed lectures by day
+            const dayLectureCount = {};
+            const dayCompletedCount = {};
+
+            document.querySelectorAll('.lecture').forEach(lecture => {
+                const day = lecture.dataset.lectureDay;
+                dayLectureCount[day] = (dayLectureCount[day] || 0) + 1;
+                if (lecture.classList.contains('completed')) {
+                    dayCompletedCount[day] = (dayCompletedCount[day] || 0) + 1;
+                }
+            });
+
+            // For each day, if all lectures completed, update storage
+            const dayCompletionData = JSON.parse(localStorage.getItem(email + '_dayCompletionData') || '{}');
+            for (const day in dayLectureCount) {
+                if (dayLectureCount[day] === dayCompletedCount[day]) {
+                    dayCompletionData[day] = true;
+                }
+            }
+            localStorage.setItem(email + '_dayCompletionData', JSON.stringify(dayCompletionData));
+            
+            // Reload progress to update UI with day completion styling
+            loadProgress();
+        }
+    </script>
+</body>
+</html>
