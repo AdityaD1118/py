@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ page import="java.sql.*" %>
+<%@ page import="com.db.DBConnection" %> <!-- Update this with your actual package -->
 
 <%
 String msg = "";
@@ -9,50 +10,45 @@ if(request.getMethod().equalsIgnoreCase("POST")) {
     String email = request.getParameter("email");
     String password = request.getParameter("password");
 
-    try {
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        try (Connection con = DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/microsoft_learn_db", "root", "root")) {
+    try (Connection con = DBConnection.getConnection()) {
 
-            String emailCheckSql = "SELECT * FROM users WHERE email=?";
-            PreparedStatement pstEmail = con.prepareStatement(emailCheckSql);
-            pstEmail.setString(1, email);
-            ResultSet rsEmail = pstEmail.executeQuery();
+        String emailCheckSql = "SELECT * FROM users WHERE email=?";
+        PreparedStatement pstEmail = con.prepareStatement(emailCheckSql);
+        pstEmail.setString(1, email);
+        ResultSet rsEmail = pstEmail.executeQuery();
 
-            if (!rsEmail.next()) {
-                msg = "That account doesn't exist. Enter a different account.";
-            } else {
-                String passwordCheckSql = "SELECT * FROM users WHERE email=? AND password=?";
-                PreparedStatement pstPass = con.prepareStatement(passwordCheckSql);
-                pstPass.setString(1, email);
-                pstPass.setString(2, password);
-                ResultSet rsPass = pstPass.executeQuery();
+        if (!rsEmail.next()) {
+            msg = "That account doesn't exist. Enter a different account.";
+        } else {
+            String passwordCheckSql = "SELECT * FROM users WHERE email=? AND password=?";
+            PreparedStatement pstPass = con.prepareStatement(passwordCheckSql);
+            pstPass.setString(1, email);
+            pstPass.setString(2, password);
+            ResultSet rsPass = pstPass.executeQuery();
 
-                if (rsPass.next()) {
-                    // ✅ Save user info in session
-                    session.setAttribute("username", rsPass.getString("username"));
-                    session.setAttribute("email", email);
-                    session.setAttribute("userEmail", email);
+            if (rsPass.next()) {
+                // ✅ Save user info in session
+                session.setAttribute("username", rsPass.getString("username"));
+                session.setAttribute("email", email);
+                session.setAttribute("userEmail", email);
 
-                    // ✅ FIXED: Single next() call + server-side redirect
-                    String paidUserCheckSql = "SELECT * FROM paid_users WHERE email=?";
-                    PreparedStatement pstPaid = con.prepareStatement(paidUserCheckSql);
-                    pstPaid.setString(1, email);
-                    ResultSet rsPaid = pstPaid.executeQuery();
-                    boolean isPaidUser = rsPaid.next();
+                // ✅ Check paid user status
+                String paidUserCheckSql = "SELECT * FROM paid_users WHERE email=?";
+                PreparedStatement pstPaid = con.prepareStatement(paidUserCheckSql);
+                pstPaid.setString(1, email);
+                ResultSet rsPaid = pstPaid.executeQuery();
+                boolean isPaidUser = rsPaid.next();
 
-                    // Set email for JS access and redirect
 %>
-                    <script>
-                        localStorage.setItem('loggedInUser', '<%= email.replace("\\", "\\\\").replace("'", "\\'") %>');
-                    </script>
+                <script>
+                    localStorage.setItem('loggedInUser', '<%= email.replace("\\", "\\\\").replace("'", "\\'") %>');
+                </script>
 <%
-                    // Server-side redirect - NO duplicate HTML issue
-                    response.sendRedirect(isPaidUser ? "next.jsp" : "payment.jsp");
-                    return;
-                } else {
-                    msg = "Your account or password is incorrect.";
-                }
+                // Server-side redirect
+                response.sendRedirect(isPaidUser ? "next.jsp" : "payment.jsp");
+                return;
+            } else {
+                msg = "Your account or password is incorrect.";
             }
         }
     } catch (Exception e) {
@@ -71,15 +67,7 @@ if(request.getMethod().equalsIgnoreCase("POST")) {
 * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif; }
 html, body { height:100%; background:#f0f2f5; }
 body { display:flex; flex-direction:column; justify-content:center; align-items:center; min-height:100vh; }
-.login-wrapper {
-    background:#fff; 
-    border-radius:12px; 
-    box-shadow:0 10px 25px rgba(0,0,0,0.2); 
-    width:400px; 
-    max-width:90%; 
-    padding:40px 35px; 
-    text-align:center;
-}
+.login-wrapper { background:#fff; border-radius:12px; box-shadow:0 10px 25px rgba(0,0,0,0.2); width:400px; max-width:90%; padding:40px 35px; text-align:center; }
 .logo { display:flex; justify-content:center; align-items:center; gap:10px; margin-bottom:25px; }
 .logo img { height:32px; }
 .logo span { font-size:20px; font-weight:600; color:#737373; }
@@ -93,19 +81,10 @@ p.subtitle { font-size:14px; color:#605e5c; margin-bottom:25px; }
 .btn-text:hover { text-decoration:underline; }
 .actions { display:flex; justify-content:space-between; align-items:center; margin-top:12px; }
 .msg { margin-top:15px; color:#a80000; font-weight:600; font-size:14px; }
-.footer {
-    text-align:center;
-    font-size:14px;
-    color:#605e5c;
-    padding:15px 0;
-    margin-top:20px;
-    width:100%;
-}
+.footer { text-align:center; font-size:14px; color:#605e5c; padding:15px 0; margin-top:20px; width:100%; }
 .footer a { color:#0078d4; text-decoration:none; }
 .footer a:hover { text-decoration:underline; }
-@media(max-width:500px) {
-    .login-wrapper { padding:30px 20px; }
-}
+@media(max-width:500px) { .login-wrapper { padding:30px 20px; } }
 </style>
 </head>
 <body>

@@ -1,14 +1,9 @@
-# Use official Tomcat image with Java 17
-FROM tomcat:11.0-jdk17
+FROM openjdk:17
 
-# Remove default webapps
-RUN rm -rf /usr/local/tomcat/webapps/*
+WORKDIR /app
 
-# Copy your webapp into Tomcat ROOT folder
-COPY course/src/main/webapp /usr/local/tomcat/webapps/ROOT
+COPY . .
 
-# Expose Tomcat port
-EXPOSE 8080
+RUN javac Main.java
 
-# Start Tomcat
-CMD ["catalina.sh", "run"]
+CMD ["java", "Main"]
