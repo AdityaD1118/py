@@ -14,6 +14,11 @@
 <meta charset="UTF-8">
 <title>Secure Payment | Learn Platform</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script>
+    // Set localStorage for loggedInUser immediately
+    const emailFromSession = '<%= email %>';
+    if(emailFromSession) localStorage.setItem('loggedInUser', emailFromSession);
+</script>
 <style>
 * {
     margin: 0;
@@ -485,6 +490,9 @@ body {
 
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script>
+// Ensure localStorage is set (redundant but safe)
+localStorage.setItem('loggedInUser', '<%= email %>');
+
 document.getElementById('rzp-button').onclick = function(e){
     e.preventDefault();
 

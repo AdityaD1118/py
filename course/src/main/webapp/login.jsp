@@ -1,58 +1,46 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ page import="java.sql.*" %>
-<%@ page import="com.db.DBConnection" %> <!-- Update this with your actual package -->
+<%@ page import="com.db.DBConnection" %>
 
 <%
 String msg = "";
 
-// 🔹 Database validation section
+// Handle POST request
 if(request.getMethod().equalsIgnoreCase("POST")) {
     String email = request.getParameter("email");
     String password = request.getParameter("password");
 
     try (Connection con = DBConnection.getConnection()) {
 
-        String emailCheckSql = "SELECT * FROM users WHERE email=?";
-        PreparedStatement pstEmail = con.prepareStatement(emailCheckSql);
-        pstEmail.setString(1, email);
-        ResultSet rsEmail = pstEmail.executeQuery();
+        // Combined query to check email + password and get paid status
+        String sql = "SELECT u.username, u.email, p.email AS paidEmail " +
+                     "FROM users u LEFT JOIN paid_users p ON u.email = p.email " +
+                     "WHERE u.email=? AND u.password=?";
+        PreparedStatement pst = con.prepareStatement(sql);
+        pst.setString(1, email);
+        pst.setString(2, password); // ⚠️ Use hashed passwords in production
+        ResultSet rs = pst.executeQuery();
 
-        if (!rsEmail.next()) {
-            msg = "That account doesn't exist. Enter a different account.";
+        if(rs.next()) {
+            // ✅ Store info in session only
+            session.setAttribute("username", rs.getString("username"));
+            session.setAttribute("email", rs.getString("email"));
+
+            boolean isPaidUser = rs.getString("paidEmail") != null;
+
+            // ✅ Redirect immediately, do NOT output HTML before this
+            response.sendRedirect(isPaidUser ? "next.jsp" : "payment.jsp");
+            return; // Stop JSP execution after redirect
         } else {
-            String passwordCheckSql = "SELECT * FROM users WHERE email=? AND password=?";
-            PreparedStatement pstPass = con.prepareStatement(passwordCheckSql);
-            pstPass.setString(1, email);
-            pstPass.setString(2, password);
-            ResultSet rsPass = pstPass.executeQuery();
-
-            if (rsPass.next()) {
-                // ✅ Save user info in session
-                session.setAttribute("username", rsPass.getString("username"));
-                session.setAttribute("email", email);
-                session.setAttribute("userEmail", email);
-
-                // ✅ Check paid user status
-                String paidUserCheckSql = "SELECT * FROM paid_users WHERE email=?";
-                PreparedStatement pstPaid = con.prepareStatement(paidUserCheckSql);
-                pstPaid.setString(1, email);
-                ResultSet rsPaid = pstPaid.executeQuery();
-                boolean isPaidUser = rsPaid.next();
-
-%>
-                <script>
-                    localStorage.setItem('loggedInUser', '<%= email.replace("\\", "\\\\").replace("'", "\\'") %>');
-                </script>
-<%
-                // Server-side redirect
-                response.sendRedirect(isPaidUser ? "next.jsp" : "payment.jsp");
-                return;
-            } else {
-                msg = "Your account or password is incorrect.";
-            }
+            msg = "Incorrect email or password.";
         }
+
+        rs.close();
+        pst.close();
+
     } catch (Exception e) {
-        msg = "Error: " + e.getMessage();
+        e.printStackTrace();
+        msg = "Something went wrong. Please try again.";
     }
 }
 %>
@@ -62,7 +50,7 @@ if(request.getMethod().equalsIgnoreCase("POST")) {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sign In</title>
+<title>Sign In - ClassBridge</title>
 <style>
 * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif; }
 html, body { height:100%; background:#f0f2f5; }

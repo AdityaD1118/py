@@ -3,9 +3,15 @@ package com.example;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
-import java.io.*;
-import java.sql.*;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.util.Map;
+
+import com.db.DBConnection;
 import com.google.gson.Gson;
 
 @WebServlet("/SaveUserServlet")
@@ -14,43 +20,56 @@ public class SaveUserServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        
-        BufferedReader reader = request.getReader();
-        Map<?, ?> payload = new Gson().fromJson(reader, Map.class);
 
-        String name = (String) payload.get("name");
-        String email = (String) payload.get("email");
-        String paymentId = (String) payload.get("payment_id");
-        int amount = ((Number) payload.get("amount")).intValue();
-        // Ignore course_name since the column doesn't exist
+        PrintWriter out = response.getWriter();
 
-        String jdbcURL = "jdbc:mysql://localhost:3306/microsoft_learn_db";
-        String dbUser = "root";
-        String dbPassword = "root";
+        try {
+            // ✅ Read JSON data
+            BufferedReader reader = request.getReader();
+            Map<?, ?> payload = new Gson().fromJson(reader, Map.class);
 
-        try (Connection conn = DriverManager.getConnection(jdbcURL, dbUser, dbPassword)) {
-            // Insert into paid_users table without course_name
-            String sql = "INSERT INTO paid_users (email, payment_id, amount) VALUES (?, ?, ?)";
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setString(1, email);
-            stmt.setString(2, paymentId);
-            stmt.setInt(3, amount);
-            stmt.executeUpdate();
+            String name = (String) payload.get("name");
+            String email = (String) payload.get("email");
+            String paymentId = (String) payload.get("payment_id");
+            int amount = ((Number) payload.get("amount")).intValue();
+            String courseName = (String) payload.get("course_name"); // optional
 
-            response.setStatus(HttpServletResponse.SC_OK);
-            PrintWriter out = response.getWriter();
-            out.write("{\"status\":\"success\",\"message\":\"Payment saved successfully\"}");
-            out.flush();
-            
+            // ✅ DB Connection (PostgreSQL via your DBConnection class)
+            Connection con = DBConnection.getConnection();
+
+            String sql = "INSERT INTO paid_users (username, email, payment_id, amount, course_name) VALUES (?, ?, ?, ?, ?)";
+            PreparedStatement pst = con.prepareStatement(sql);
+
+            pst.setString(1, name);
+            pst.setString(2, email);
+            pst.setString(3, paymentId);
+            pst.setInt(4, amount);
+            pst.setString(5, courseName);
+
+            int result = pst.executeUpdate();
+
+            if (result > 0) {
+
+                // ✅ Update session (IMPORTANT)
+                HttpSession session = request.getSession();
+                session.setAttribute("paidUser", true);
+
+                out.write("{\"status\":\"success\"}");
+            } else {
+                out.write("{\"status\":\"fail\",\"message\":\"Insert failed\"}");
+            }
+
+            pst.close();
+            con.close();
+
         } catch (Exception e) {
             e.printStackTrace();
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            PrintWriter out = response.getWriter();
-            out.write("{\"status\":\"error\",\"message\":\"Error saving payment: " + e.getMessage() + "\"}");
-            out.flush();
+            out.write("{\"status\":\"error\",\"message\":\"" + e.getMessage() + "\"}");
         }
+
+        out.flush();
     }
 }
