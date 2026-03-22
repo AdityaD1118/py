@@ -1,9 +1,14 @@
-FROM eclipse-temurin:17-jdk
+# Use Tomcat 10 base image
+FROM tomcat:10.1-jdk17
 
-WORKDIR /app
+# Remove default webapps
+RUN rm -rf /usr/local/tomcat/webapps/*
 
-COPY . .
+# Copy your WAR file into Tomcat
+COPY ClassBridge.war /usr/local/tomcat/webapps/ROOT.war
 
-RUN javac *.java
+# Expose Tomcat port
+EXPOSE 8080
 
-CMD ["java", "Main"]
+# Start Tomcat
+CMD ["catalina.sh", "run"]
