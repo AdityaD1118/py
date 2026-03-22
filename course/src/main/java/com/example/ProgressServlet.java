@@ -6,15 +6,12 @@ import jakarta.servlet.http.*;
 import java.io.*;
 import java.sql.*;
 import java.util.*;
+import com.db.DBConnection;
 import com.google.gson.Gson;
 
 @WebServlet("/ProgressServlet")
 public class ProgressServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
-
-    public ProgressServlet() {
-        super();
-    }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -23,11 +20,8 @@ public class ProgressServlet extends HttpServlet {
         Map<String, Integer> progressMap = new HashMap<>();
         Map<String, Boolean> dayCompletionMap = new HashMap<>();
 
-        String jdbcURL = "jdbc:mysql://localhost:3306/microsoft_learn_db";
-        String dbUser = "root";
-        String dbPassword = "root";
+        try (Connection conn = DBConnection.getConnection()) {
 
-        try (Connection conn = DriverManager.getConnection(jdbcURL, dbUser, dbPassword)) {
             // Get individual lecture progress
             String sql1 = "SELECT lecture_day, lecture_num, progress FROM user_progress WHERE email = ?";
             PreparedStatement stmt1 = conn.prepareStatement(sql1);

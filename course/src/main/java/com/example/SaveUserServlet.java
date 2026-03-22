@@ -3,16 +3,14 @@ package com.example;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.util.Map;
-
 import com.db.DBConnection;
 import com.google.gson.Gson;
+import java.util.Map;
 
 @WebServlet("/SaveUserServlet")
 public class SaveUserServlet extends HttpServlet {
@@ -23,7 +21,6 @@ public class SaveUserServlet extends HttpServlet {
 
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-
         PrintWriter out = response.getWriter();
 
         try {
@@ -37,12 +34,18 @@ public class SaveUserServlet extends HttpServlet {
             int amount = ((Number) payload.get("amount")).intValue();
             String courseName = (String) payload.get("course_name"); // optional
 
-            // ✅ DB Connection (PostgreSQL via your DBConnection class)
+            // ✅ DB Connection (PostgreSQL via DBConnection)
             Connection con = DBConnection.getConnection();
 
-            String sql = "INSERT INTO paid_users (username, email, payment_id, amount, course_name) VALUES (?, ?, ?, ?, ?)";
-            PreparedStatement pst = con.prepareStatement(sql);
+            String sql = "INSERT INTO paid_users (username, email, payment_id, amount, course_name) " +
+                         "VALUES (?, ?, ?, ?, ?) " +
+                         "ON CONFLICT (email) DO UPDATE SET " +
+                         "username = EXCLUDED.username, " +
+                         "payment_id = EXCLUDED.payment_id, " +
+                         "amount = EXCLUDED.amount, " +
+                         "course_name = EXCLUDED.course_name";
 
+            PreparedStatement pst = con.prepareStatement(sql);
             pst.setString(1, name);
             pst.setString(2, email);
             pst.setString(3, paymentId);
@@ -52,8 +55,7 @@ public class SaveUserServlet extends HttpServlet {
             int result = pst.executeUpdate();
 
             if (result > 0) {
-
-                // ✅ Update session (IMPORTANT)
+                // ✅ Update session
                 HttpSession session = request.getSession();
                 session.setAttribute("paidUser", true);
 
